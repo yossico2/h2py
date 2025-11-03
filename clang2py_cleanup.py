@@ -121,4 +121,4 @@ def remove_clang2py_helper_classes_from_files(directory):
                 new_source = ast.unparse(tree)
                 with open(filepath, "w", encoding="utf-8") as f:
                     f.write(new_source)
-                print(f"✓ Cleaned and/or updated class bases in {filename}.")
+                print(f"✓ Cleaned {filename}.")

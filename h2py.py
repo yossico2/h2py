@@ -64,7 +64,7 @@ def convert_all_headers(input_dir, output_dir):
     failed = 0
 
     print(f"Found {len(header_files)} header files to convert...")
-    print("-" * 50)
+    print("-" * 60)
 
     for header_file in header_files:
         # Generate output filename
@@ -76,7 +76,6 @@ def convert_all_headers(input_dir, output_dir):
         else:
             failed += 1
 
-    print("-" * 50)
     print(f"Conversion complete: {successful} successful, {failed} failed")
 
     return successful, failed
@@ -130,9 +129,16 @@ def main():
         successful, failed = convert_all_headers(args.input, args.output)
 
         print()
-        print(f"Removing clang2py helper classes from generated python files...")
-        print("-" * 50)
+        print(f"Removing clang2py helpers from generated python files...")
+        print("-" * 60)
         remove_clang2py_helper_classes_from_files(args.output)
+
+        # Deduplicate struct/class definitions and fix imports
+        from ddup import deduplicate_structs
+
+        print("\nDeduplicating struct definitions and fixing imports...")
+        print("-" * 60)
+        deduplicate_structs()
 
         if failed > 0:
             return 1
