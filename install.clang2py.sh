@@ -80,45 +80,9 @@ create_libclang_symlink() {
     print_success "Created symbolic link: $SYMLINK_DIR/libclang.so -> $LIBCLANG_PATH"
 }
 
-# Setup Python virtual environment
-setup_python_env() {
-    print_status "Setting up Python virtual environment..."
-    
-    # Check if Python is available
-    if ! command_exists python3; then
-        print_error "Python3 is not installed. Please install Python3 first."
-        exit 1
-    fi
-    
-    # Create virtual environment if it doesn't exist
-    if [ ! -d "py312" ]; then
-        print_status "Creating virtual environment 'py312'..."
-        python3 -m venv py312
-        print_success "Virtual environment created"
-    else
-        print_warning "Virtual environment 'py312' already exists"
-    fi
-    
-    # Activate virtual environment
-    print_status "Activating virtual environment..."
-    source py312/bin/activate
-    
-    # Upgrade pip
-    print_status "Upgrading pip..."
-    pip install --upgrade pip
-    
-    print_success "Python environment ready"
-}
-
 # Install Python packages
 install_python_packages() {
     print_status "Installing Python packages..."
-    
-    # Make sure we're in the virtual environment
-    if [ -z "$VIRTUAL_ENV" ]; then
-        print_status "Activating virtual environment..."
-        source py312/bin/activate
-    fi
     
     # Install ctypeslib2 (which contains clang2py)
     print_status "Installing ctypeslib2 (contains clang2py)..."
@@ -130,11 +94,6 @@ install_python_packages() {
 # Test installation
 test_installation() {
     print_status "Testing clang2py installation..."
-    
-    # Make sure we're in the virtual environment
-    if [ -z "$VIRTUAL_ENV" ]; then
-        source py312/bin/activate
-    fi
     
     # Test clang2py command
     if command_exists clang2py; then
@@ -161,10 +120,6 @@ main() {
     
     # Create libclang symbolic link
     create_libclang_symlink
-    echo
-    
-    # Setup Python environment
-    setup_python_env
     echo
     
     # Install Python packages

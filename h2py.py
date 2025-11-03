@@ -9,6 +9,7 @@ import sys
 import subprocess
 import argparse
 from pathlib import Path
+from clang2py_cleanup import remove_clang2py_helper_classes_from_files
 
 
 def convert_header_to_python(header_path, output_path):
@@ -127,6 +128,11 @@ def main():
             return 1
 
         successful, failed = convert_all_headers(args.input, args.output)
+
+        print()
+        print(f"Removing clang2py helper classes from generated python files...")
+        print("-" * 50)
+        remove_clang2py_helper_classes_from_files(args.output)
 
         if failed > 0:
             return 1

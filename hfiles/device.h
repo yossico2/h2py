@@ -5,7 +5,7 @@
 #include "utils.h"
 #include "memory.h"
 #include "config.h"
-#include "hardware.h" // This will create a circular dependency!
+// #include "hardware.h" // This will create a circular dependency!
 
 // Device types
 typedef enum
